@@ -1,31 +1,32 @@
-const mongoose=require("mongoose")
+const mongoose = require("mongoose");
 
-const connect=mongoose.connect("mongodb+srv://bhuvan1175:sbjain12345,@cluster0.q4sisur.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-// check connection build or not
+// Connect to local MongoDB
+const connect = mongoose.connect("mongodb://localhost:27017/Login", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 
-connect.then(()=>{
-    console.log("Database Connected Succesfully...");
+// Check connection
+connect.then(() => {
+    console.log("Database Connected Successfully...");
 })
-.catch(()=>{
-    console.log("Database cannot be connected...");
-})
+.catch((err) => {
+    console.log("Database connection error: ", err);
+});
 
-// create schema
-
-const LogInSchema=new mongoose.Schema({
-    name:{
-        type:String,
-        required:true
+// Create schema
+const LogInSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
     },
-    password:{
-        type:String,
-        required:true
+    password: {
+        type: String,
+        required: true
     }
-})
+});
 
-// collection part 
+// Collection part
+const collection = mongoose.model("User", LogInSchema);
 
-
-const collection = new mongoose.model("users",LogInSchema)
-
-module.exports=collection;
+module.exports = collection;
